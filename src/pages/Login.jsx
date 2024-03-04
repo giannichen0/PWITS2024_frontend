@@ -6,6 +6,8 @@ import axios from "axios";
 import Spinner from "../components/Spinner";
 import AuthContext from "../../context/authProvider";
 import { useNavigate } from "react-router-dom";
+import Title from "../components/Title";
+import Footer from "../components/Footer";
 
 const fields = loginFields;
 let fieldsState = {};
@@ -83,8 +85,10 @@ const Login = () => {
     );
 
     return (
-        <div className="min-h-full h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
+        <div className="min-h-full h-screen flex items-center justify-between flex-col py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
+            <Title></Title>
             {loading ? <Spinner /> : content}
+            <Footer></Footer>
         </div>
     );
 };

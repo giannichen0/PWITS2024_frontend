@@ -27,7 +27,6 @@ const Login = () => {
     };
 
     const handleSubmit = (e) => {
-        console.log("onsubmit");
         e.preventDefault();
         authenticateUser();
     };

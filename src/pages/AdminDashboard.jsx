@@ -1,61 +1,63 @@
 import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 import Spinner from "../components/Spinner";
-import { Link, useNavigate } from "react-router-dom";
-import { AiOutlineEdit } from "react-icons/ai";
-// import { BSInfoCircle } from "react-icons/bs";
-// import { MdOutlineAddBox, MdOutlineDelete } from "react-icons/md";
-import AdminDoctor from "./admin/AdminDoctor"
-import AuthContext from "../../context/authProvider"; 
+import { useNavigate, Route, Routes, Outlet } from "react-router-dom";
+import AuthContext from "../../context/authProvider";
 import NavbarMio from "../components/NavbarMio";
-import Table from "../components/Table"
-
+import Table from "../components/Table";
+import AdminReport from "./admin/AdminReport";
+import AdminPatient from "./admin/AdminPatient";
+import AdminExam from "./admin/AdminExam";
+import AdminDoctor from "./admin/AdminDoctor";
+import NotFound from "./NotFound";
 
 const AdminDashboard = () => {
+    const navigate = useNavigate();
 
-    const navigate = useNavigate()
-
-    const { accessToken } = useContext(AuthContext)
-
-    const [dottori, setDottori] = useState([])
-    const [loading, setLoading] = useState(false)
-
+    const { accessToken } = useContext(AuthContext);
+    const role = accessToken.split("\t")[1]
     useEffect(() => {
-        if (!accessToken) {
+        if (!accessToken || role!== "admin") 
             navigate("/");
-        } else {
-            setLoading(true);
-            const getDottori = async () => {
-                try {
-                    const response = await axios.get("http://localhost:8080/admin/doctors", {
-                        headers: {
-                            Authorization: `Bearer ${accessToken.split("\t")[0]}`
-                        }
-                    });
-                    setDottori(response.data);
-                } catch (error) {
-                    console.error("Error fetching doctors:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
-            getDottori();
-        }
+        
     }, []);
 
-
-    return <>
-    <NavbarMio />
-    <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
-        <h1 className="text-center text-3xl">Dottori</h1>
-        {loading ? (
-            <Spinner />
-        
-        ) : (
-            <Table data={dottori} />
-        )}
-    </div>
-</>
-}
+    return (
+        <>
+            <NavbarMio />
+            <Routes>
+                <Route
+                    path="/"
+                    element={
+                        <AdminDoctor accessToken={accessToken.split("\t")[0]} role={role} />
+                    }
+                />
+                <Route
+                    path="/patients"
+                    element={
+                        <AdminPatient
+                            accessToken={accessToken.split("\t")[0]}
+                            role = {role}
+                        />
+                    }
+                />
+                <Route
+                    path="/reports"
+                    element={
+                        <AdminReport accessToken={accessToken.split("\t")[0]} role={role}/>
+                    }
+                />
+                <Route
+                    path="/exams"
+                    element={
+                        <AdminExam accessToken={accessToken.split("\t")[0]} role={role}/>
+                    }
+                />
+                <Route path="*" element={<NotFound />} />
+            
+            </Routes>
+        </>
+    );
+};
 
 export default AdminDashboard;

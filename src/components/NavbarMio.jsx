@@ -1,13 +1,13 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { Navbar } from "flowbite-react";
+import { Link, useLocation } from "react-router-dom";
 
 const NavbarMio = () => {
+    const location = useLocation();
     return (
         <nav className="bg-[#F6F3F9] fixed w-full z-20 top-0 start-0 ">
             <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
                 <p
-                    href="https://flowbite.com/"
+                   
                     className="flex items-center text-2xl  font-semibold whitespace-nowrap space-x-3 rtl:space-x-reverse"
                 >
                     Clinica Rossi
@@ -50,36 +50,44 @@ const NavbarMio = () => {
                 >
                     <ul className="flex flex-col p-4 md:p-0 mt-4 font-medium border  md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0">
                         <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 "
-                            >
-                                Dottori
-                            </a>
+                        <Link
+                            to="/admin"
+                            className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
+                                location.pathname === "/admin" ? "text-purple-700" : ""
+                            }`}
+                        >
+                            Dottori
+                        </Link>
                         </li>
                         <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 "
-                            >
-                                Pazienti
-                            </a>
+                        <Link
+                            to="/admin/patients"
+                            className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
+                                location.pathname === "/admin/patients" ? "text-purple-700" : ""
+                            }`}
+                        >
+                            Pazienti
+                        </Link>
                         </li>
                         <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 "
-                            >
-                                Report
-                            </a>
+                        <Link
+                            to="/admin/reports"
+                            className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
+                                location.pathname === "/admin/reports" ? "text-purple-700" : ""
+                            }`}
+                        >
+                            Report
+                        </Link>
                         </li>
                         <li>
-                            <a
-                                href="#"
-                                className="block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:hover:text-purple-700 md:p-0 "
-                            >
-                                Esami
-                            </a>
+                        <Link
+                            to="/admin/exams"
+                            className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
+                                location.pathname === "/admin/exams" ? "text-purple-700" : ""
+                            }`}
+                        >
+                            Visite
+                        </Link>
                         </li>
                     </ul>
                 </div>

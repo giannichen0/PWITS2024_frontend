@@ -8,6 +8,8 @@ function Table({ data, accessToken }) {
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [selectedItem, setSelectedItem] = useState("");
+    
+
     const [mode, setMode] = useState("");
 
     const formatDate = (dateString) => {
@@ -30,9 +32,9 @@ function Table({ data, accessToken }) {
         });
     };
 
-    const handleEditClick = (id) => {
+    const handleEditClick = (item) => {
         // Set the selected item for editing
-        setSelectedItem(id);
+        setSelectedItem(item);
         setMode("edit");
         // Open the modal
         setIsModalOpen(true);
@@ -97,7 +99,7 @@ function Table({ data, accessToken }) {
                                 <div className="flex justify-center gap-x-4">
                                     <button
                                         onClick={() =>
-                                            handleEditClick(item._id)
+                                            handleEditClick(item)
                                         }
                                         className="text-2xl text-yellow-600"
                                     >

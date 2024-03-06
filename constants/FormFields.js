@@ -31,7 +31,7 @@ const doctorFields = [
     },
     {
         labelText: "cognome",
-        labelFor: "cognom",
+        labelFor: "cognome",
         id: "cognome",
         name: "surname",
         type: "text",
@@ -78,7 +78,7 @@ const patientFields = [
     },
     {
         labelText: "cognome",
-        labelFor: "cognom",
+        labelFor: "cognome",
         id: "cognome",
         name: "surname",
         type: "text",
@@ -122,4 +122,44 @@ const patientFields = [
         placeholder: "dottore",
     },
 ];
-export { loginFields, doctorFields, patientFields };
+const reportFields = [
+    {
+        labelText: "content",
+        labelFor: "content",
+        id: "content",
+        name: "content",
+        type: "text",
+        isRequired: false,
+        placeholder: "content",
+    },
+    {
+        labelText: "field",
+        labelFor: "field",
+        id: "field",
+        name: "field",
+        type: "text",
+        isRequired: false,
+        placeholder: "field",
+    },
+    {
+        labelText: "patient",
+        labelFor: "patient",
+        id: "patient",
+        name: "patient",
+        type: "text",
+        isRequired: false,
+        placeholder: "patient",
+    },
+    {
+        labelText: "doctor",
+        labelFor: "doctor",
+        id: "doctor",
+        name: "doctor",
+        type: "text",
+        isRequired: false,
+        placeholder: "doctor",
+    }
+]
+
+
+export { loginFields, doctorFields, patientFields, reportFields };

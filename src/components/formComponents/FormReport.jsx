@@ -1,15 +1,44 @@
-import React, { useEffect } from "react";
-import { patientFields } from "../../../constants/FormFields";
+import React, { useEffect, useState } from "react";
+import { reportFields } from "../../../constants/FormFields";
 
-const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, getDoctor, dottori}) => {
+const FormReport = ({
+    handleChange,
+    handleUpdate,
+    closeModal,
+    selectedDoctor,
+    getDoctor,
+    dottori,
+    selectedPatient,
+    getPatient,
+    pazienti,
+}) => {
+    const [filteredDoctors, setFilteredDoctors] = useState([]);
 
-    useEffect(()=>{
+    useEffect(() => {
+        getPatient();
         getDoctor()
-    },[])
+    }, []);
 
-    const patientForm = (
+    useEffect(() => {
+        if (selectedPatient && dottori.length > 0) {
+            // Find the selected patient's doctor ID
+            const patient = pazienti.find((p) => p._id === selectedPatient);
+            const doctorId = patient?.doctor.split(" ").pop();
+
+            // Filter doctors based on the patient's doctor ID
+            const filteredDocs = dottori.filter((doc) => doc._id === doctorId);
+
+            // Update the filteredDoctors state with the filtered list
+            setFilteredDoctors(filteredDocs);
+        } else {
+            // If no patient is selected or no doctors are available, set all doctors
+            setFilteredDoctors(dottori);
+        }
+    }, [selectedPatient, dottori, pazienti]);
+
+    return (
         <form className="bg-[#F6F3F9] px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-            {patientFields.map((field) => (
+            {reportFields.map((field) => (
                 <div key={field.id}>
                     <label
                         htmlFor={field.labelFor}
@@ -27,11 +56,30 @@ const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, ge
                             value={selectedDoctor}
                             onChange={handleChange}
                         >
-                            <option value="">seleziona il dottore o lascia vuoto</option>
-                            {/* Map over the list of doctors and create an option for each one */}
-                            {dottori.map((doctor) => (
+                            <option value="">seleziona il dottore</option>
+                            {/* Map over the filtered list of doctors and create an option for each one */}
+                            {filteredDoctors.map((doctor) => (
                                 <option key={doctor._id} value={doctor._id}>
                                     {doctor.name}
+                                </option>
+                            ))}
+                        </select>
+                    ) : field.name === "patient" ? (
+                        <select
+                            name={field.name}
+                            id={field.id}
+                            autoComplete="off"
+                            required={field.isRequired}
+                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            value={selectedPatient}
+                            onChange={handleChange}
+                        >
+                            <option value="">seleziona il paziente o lascia vuoto</option>
+
+                            {/* Map over the list of patients and create an option for each one */}
+                            {pazienti.map((patient) => (
+                                <option key={patient._id} value={patient._id}>
+                                    {patient.name}
                                 </option>
                             ))}
                         </select>
@@ -67,7 +115,6 @@ const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, ge
             </div>
         </form>
     );
-    return patientForm;
 };
 
-export default FormPatient;
+export default FormReport;

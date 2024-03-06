@@ -1,42 +1,39 @@
 import axios from "axios";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import { useLocation } from "react-router-dom";
 import FormCRUD from "./formComponents/FormCRUD";
 
 function Modal({ isOpen, closeModal, selectedItem, mode, accessToken }) {
-    const[loading, setLoading] = useState(false)
+    const [loading, setLoading] = useState(false);
 
     const location = useLocation();
-    let url = ""
+    let url = "";
     const pathSegments = location.pathname.split("/");
-    if(pathSegments.length <=2){
-        url = "doctors"
-    }else{
-        url = pathSegments[2]
+    if (pathSegments.length <= 2) {
+        url = "doctors";
+    } else {
+        url = pathSegments[2];
     }
 
-    const handleDelete = async ()=>{
-        setLoading(true)
-        try{
+    const handleDelete = async () => {
+        setLoading(true);
+        try {
             await axios.delete(`http://localhost:8080/admin/${url}`, {
-            headers : {
-                Authorization : `Bearer ${accessToken}`
-            },
-            data : {
-                id : selectedItem
-            }
-        })
-        closeModal()
-        }catch (error) {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+                data: {
+                    id: selectedItem,
+                },
+            });
+            closeModal();
+        } catch (error) {
             console.error("Error fetching doctors:", error);
         } finally {
             setLoading(false);
-            closeModal()
+            closeModal();
         }
-        
-    }
-
-    
+    };
 
     const editMode = isOpen && (
         <div
@@ -56,17 +53,23 @@ function Modal({ isOpen, closeModal, selectedItem, mode, accessToken }) {
                                         className="text-base font-semibold leading-6 text-gray-900"
                                         id="modal-title"
                                     >
-                                        Modifica  
+                                        Modifica
                                     </h3>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Modifica dell'elemento {selectedItem}
+                                            Modifica dell'elemento{" "}
+                                            {selectedItem._id}
                                         </p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <FormCRUD url={url} accessToken={accessToken} closeModal={closeModal}  id={selectedItem}/>
+                        <FormCRUD
+                            url={url}
+                            accessToken={accessToken}
+                            closeModal={closeModal}
+                            element={selectedItem}
+                        />
                     </div>
                 </div>
             </div>
@@ -108,11 +111,12 @@ function Modal({ isOpen, closeModal, selectedItem, mode, accessToken }) {
                                         className="text-base font-semibold leading-6 text-gray-900"
                                         id="modal-title"
                                     >
-                                        Eliminazione 
+                                        Eliminazione
                                     </h3>
                                     <div className="mt-2">
                                         <p className="text-sm text-gray-500">
-                                            Sei sicuro di eliminare l'elemento {selectedItem}
+                                            Sei sicuro di eliminare l'elemento{" "}
+                                            {selectedItem}
                                         </p>
                                     </div>
                                 </div>
@@ -124,7 +128,7 @@ function Modal({ isOpen, closeModal, selectedItem, mode, accessToken }) {
                                 onClick={handleDelete}
                                 className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white hover:bg-purple-700 sm:ml-3 sm:w-auto"
                             >
-                                Elimina 
+                                Elimina
                             </button>
                             <button
                                 type="button"

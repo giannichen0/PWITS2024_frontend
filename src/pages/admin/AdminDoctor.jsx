@@ -1,16 +1,20 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table";
 import Spinner from "../../components/Spinner";
+import { CiSquarePlus } from "react-icons/ci";
+import Modal from "../../components/Modal";
 
-const AdminDoctor = ({accessToken, role}) => {
-    const navigate = useNavigate()
+const AdminDoctor = ({ accessToken, role }) => {
+    const navigate = useNavigate();
     const [dottori, setDottori] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [mode,setMode] = useState("")
 
     useEffect(() => {
-        if (!accessToken || role!=="admin") {
+        if (!accessToken || role !== "admin") {
             navigate("/");
         } else {
             setLoading(true);
@@ -20,9 +24,7 @@ const AdminDoctor = ({accessToken, role}) => {
                         "http://localhost:8080/admin/doctors",
                         {
                             headers: {
-                                Authorization: `Bearer ${
-                                    accessToken
-                                }`,
+                                Authorization: `Bearer ${accessToken}`,
                             },
                         }
                     );
@@ -36,13 +38,39 @@ const AdminDoctor = ({accessToken, role}) => {
             getDottori();
         }
     }, []);
-    
-    
+
+    const handleAdd = ()=>{
+        setIsModalOpen(true);
+        setMode("add")
+    }
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setMode("");
+    };
+
     return (
-      <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
-            {loading ? <Spinner /> : <Table data={dottori} accessToken={accessToken} />}
-        </div>
-    )
+        <>
+            <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
+                <button className="text-5xl text-purple-600" onClick={handleAdd}>
+                    <CiSquarePlus />
+                </button>
+                {loading ? (
+                    <Spinner />
+                ) : (
+                    <Table data={dottori} accessToken={accessToken} />
+                )}
+            </div>
+            
+            <Modal 
+            isOpen={isModalOpen}
+            closeModal={closeModal}
+            mode={mode}
+            accessToken={accessToken}
+            />
+
+            
+        </>
+    );
 };
 
 export default AdminDoctor;

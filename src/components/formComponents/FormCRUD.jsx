@@ -6,7 +6,7 @@ import FormPatient from "./FormPatient";
 import FormReport from "./FormReport";
 import FormExam from "./FormExam";
 
-function FormCRUD({ url, accessToken, closeModal, element }) {
+function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
     const [dottori, setDottori] = useState([]);
     const [loading, setLoading] = useState(false);
     const [selectedDoctor, setSelectedDoctor] = useState(
@@ -42,134 +42,161 @@ function FormCRUD({ url, accessToken, closeModal, element }) {
     };
     //update dei miei model, alla fine di tutto resetto tutti i miei state
     const handleUpdate = async () => {
-        if (url === "doctors") {
-            try {
-                const response = await axios.put(
-                    "http://localhost:8080/admin/doctors",
-                    {
-                        id: element._id,
-                        name: updateState?.name,
-                        surname: updateState?.surname,
-                        email: updateState?.email,
-                        password: updateState?.password,
-                        telefono: updateState?.telefono,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
+        if (mode === "add") {
+            if (url === "doctors") {
+                try {
+                    const response = await axios.post(
+                        "http://localhost:8080/admin/doctors",
+                        {
+                            name: updateState.name,
+                            surname: updateState.surname,
+                            email: updateState.email,
+                            password: updateState.password,
+                            telefono: updateState.telefono,
                         },
-                    }
-                );
-                closeModal();
-                setUpdateState({});
-            } catch (err) {
-                console.error("Error fetching doctors:", err);
-                closeModal();
-                setUpdateState({});
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    closeModal();
+                    setUpdateState({});
+                } catch (err) {
+                    console.error("Error fetching doctors:", err);
+                    closeModal();
+                    setUpdateState({});
+                }
             }
-        }
-        if (url === "patients") {
-            try {
-                const response = await axios.put(
-                    "http://localhost:8080/admin/patients",
-                    {
-                        id: element._id,
-                        name: updateState?.name,
-                        surname: updateState?.surname,
-                        email: updateState?.email,
-                        password: updateState?.password,
-                        telefono: updateState?.telefono,
-                        doctor: selectedDoctor,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
+        } else {
+            if (url === "doctors") {
+                try {
+                    const response = await axios.put(
+                        "http://localhost:8080/admin/doctors",
+                        {
+                            id: element._id,
+                            name: updateState?.name,
+                            surname: updateState?.surname,
+                            email: updateState?.email,
+                            password: updateState?.password,
+                            telefono: updateState?.telefono,
                         },
-                    }
-                );
-                setSelectedDoctor("");
-                setUpdateState({});
-                setDottori([])
-                closeModal();
-            } catch (err) {
-                console.error("Error fetching patients:", err);
-                setSelectedDoctor("");
-                setUpdateState({});
-                setDottori([])
-                closeModal();
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    closeModal();
+                    setUpdateState({});
+                } catch (err) {
+                    console.error("Error fetching doctors:", err);
+                    closeModal();
+                    setUpdateState({});
+                }
             }
-        }
-        if (url === "exams") {
-            try {
-                const response = await axios.put(
-                    "http://localhost:8080/admin/exams",
-                    {
-                        id: element._id,
-                        content: updateState?.content,
-                        field: updateState?.field,
-                        patient: selectedPatient,
-                        doctor: selectedDoctor,
-                        report : selectedReport,
-                        completed : updateState?.completed
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
+            if (url === "patients") {
+                try {
+                    const response = await axios.put(
+                        "http://localhost:8080/admin/patients",
+                        {
+                            id: element._id,
+                            name: updateState?.name,
+                            surname: updateState?.surname,
+                            email: updateState?.email,
+                            password: updateState?.password,
+                            telefono: updateState?.telefono,
+                            doctor: selectedDoctor,
                         },
-                    }
-                );
-                setSelectedDoctor("");
-                setSelectedPatient("");
-                setSelectedReport("")
-                setUpdateState("");
-                setDottori([])
-                setPazienti([])
-                setReports([])
-                closeModal();
-            } catch (err) {
-                console.error("Error fetching reports:", err);
-                setSelectedDoctor("");
-                setSelectedPatient("");
-                setSelectedReport("")
-                setUpdateState("");
-                setDottori([])
-                setPazienti([])
-                setReports([])
-                closeModal();
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    setSelectedDoctor("");
+                    setUpdateState({});
+                    setDottori([]);
+                    closeModal();
+                } catch (err) {
+                    console.error("Error fetching patients:", err);
+                    setSelectedDoctor("");
+                    setUpdateState({});
+                    setDottori([]);
+                    closeModal();
+                }
             }
-        }
-        if (url === "reports") {
-            try {
-                const response = await axios.put(
-                    "http://localhost:8080/admin/reports",
-                    {
-                        id: element._id,
-                        content: updateState?.content,
-                        field: updateState?.field,
-                        patient: selectedPatient,
-                        doctor: selectedDoctor,
-                    },
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
+            if (url === "exams") {
+                try {
+                    const response = await axios.put(
+                        "http://localhost:8080/admin/exams",
+                        {
+                            id: element._id,
+                            content: updateState?.content,
+                            field: updateState?.field,
+                            patient: selectedPatient,
+                            doctor: selectedDoctor,
+                            report: selectedReport,
+                            completed: updateState?.completed,
                         },
-                    }
-                );
-                setSelectedDoctor("");
-                setSelectedPatient("");
-                setUpdateState("");
-                setDottori([])
-                setPazienti([])
-                closeModal();
-                
-            } catch (err) {
-                console.error("Error fetching reports:", err);
-                setSelectedDoctor("");
-                setSelectedPatient("");
-                setUpdateState("");
-                setDottori([])
-                setPazienti([])
-                closeModal();
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setSelectedReport("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    setReports([]);
+                    closeModal();
+                } catch (err) {
+                    console.error("Error fetching reports:", err);
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setSelectedReport("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    setReports([]);
+                    closeModal();
+                }
+            }
+            if (url === "reports") {
+                try {
+                    const response = await axios.put(
+                        "http://localhost:8080/admin/reports",
+                        {
+                            id: element._id,
+                            content: updateState?.content,
+                            field: updateState?.field,
+                            patient: selectedPatient,
+                            doctor: selectedDoctor,
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    closeModal();
+                } catch (err) {
+                    console.error("Error fetching reports:", err);
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    closeModal();
+                }
             }
         }
     };
@@ -194,7 +221,7 @@ function FormCRUD({ url, accessToken, closeModal, element }) {
         }
     };
 
-    //serve per report ed exam 
+    //serve per report ed exam
     const getPatient = async () => {
         setLoading(true);
         try {
@@ -234,7 +261,6 @@ function FormCRUD({ url, accessToken, closeModal, element }) {
         } finally {
             setLoading(false);
         }
-
     };
 
     return url === "doctors" ? (

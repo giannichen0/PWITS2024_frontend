@@ -18,7 +18,6 @@ const loginFields = [
         placeholder: "Password",
     },
 ];
-
 const doctorFields = [
     {
         labelText: "nome",
@@ -161,5 +160,62 @@ const reportFields = [
     }
 ]
 
+const examFields = [
+    {
+        labelText: "content",
+        labelFor: "content",
+        id: "content",
+        name: "content",
+        type: "text",
+        isRequired: false,
+        placeholder: "content",
+    },
+    {
+        labelText: "field",
+        labelFor: "field",
+        id: "field",
+        name: "field",
+        type: "text",
+        isRequired: false,
+        placeholder: "field",
+    },
+    {
+        labelText: "patient",
+        labelFor: "patient",
+        id: "patient",
+        name: "patient",
+        type: "text",
+        isRequired: false,
+        placeholder: "patient",
+    },
+    {
+        labelText: "doctor",
+        labelFor: "doctor",
+        id: "doctor",
+        name: "doctor",
+        type: "text",
+        isRequired: false,
+        placeholder: "doctor",
+    },
+    {
+        labelText: "report",
+        labelFor: "report",
+        id: "report",
+        name: "report",
+        type: "text",
+        isRequired: false,
+        placeholder: "report",
+    },
+    {
+        labelText: "completed",
+        labelFor: "completed",
+        id: "completed",
+        name: "completed",
+        type: "text",
+        isRequired: false,
+        placeholder: "completed",
+    }
+]
 
-export { loginFields, doctorFields, patientFields, reportFields };
+
+export { loginFields, doctorFields, patientFields, reportFields, examFields };

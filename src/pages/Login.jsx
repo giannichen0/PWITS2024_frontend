@@ -23,7 +23,6 @@ const Login = () => {
 
     const handleChange = (e) => {
         setLoginState({ ...loginState, [e.target.id]: e.target.value });
-        console.log(loginState);
     };
 
     const handleSubmit = (e) => {

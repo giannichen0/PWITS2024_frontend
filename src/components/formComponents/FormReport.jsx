@@ -11,6 +11,7 @@ const FormReport = ({
     selectedPatient,
     getPatient,
     pazienti,
+    mode,
 }) => {
     const [filteredDoctors, setFilteredDoctors] = useState([]);
 
@@ -57,7 +58,7 @@ const FormReport = ({
                             value={selectedDoctor}
                             onChange={handleChange}
                         >
-                            <option value="">seleziona il dottore</option>
+                            <option value="">seleziona paziente</option>
                             {/* Map over the filtered list of doctors and create an option for each one */}
                             {filteredDoctors.map((doctor) => (
                                 <option key={doctor._id} value={doctor._id}>
@@ -75,7 +76,7 @@ const FormReport = ({
                             value={selectedPatient}
                             onChange={handleChange}
                         >
-                            <option value="">seleziona il paziente o lascia vuoto</option>
+                            <option value="">{mode ==="edit" ? "seleziona il paziente o lascia vuoto" : "seleziona il paziente"}</option>
 
                             {/* Map over the list of patients and create an option for each one */}
                             {pazienti.map((patient) => (

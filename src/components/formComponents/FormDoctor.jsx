@@ -2,7 +2,7 @@ import React from "react";
 import { doctorFields } from "../../../constants/FormFields";
 
 
-const FormDoctor = ({handleChange, handleUpdate, closeModal}) => {
+const FormDoctor = ({handleChange, handleUpdate, closeModal, mode }) => {
 
     const doctorForm = (
         <form className="bg-[#F6F3F9] px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
@@ -32,7 +32,7 @@ const FormDoctor = ({handleChange, handleUpdate, closeModal}) => {
                     onClick={handleUpdate}
                     className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto"
                 >
-                    Modifica
+                    {mode === "edit" ? "Modifica" : "Aggiungi"}
                 </button>
                 <button
                     type="button"

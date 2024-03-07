@@ -3,11 +3,25 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Table from "../../components/Table";
 import Spinner from "../../components/Spinner";
+import { CiSquarePlus } from "react-icons/ci";
+import Modal from "../../components/Modal";
 
-const AdminReport = ({accessToken, role}) => {
+const AdminReport = ({ accessToken, role }) => {
     const navigate = useNavigate();
     const [report, setReport] = useState([]);
     const [loading, setLoading] = useState(false);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [mode, setMode] = useState("");
+
+    const handleAdd = () => {
+        setIsModalOpen(true);
+        setMode("add");
+    };
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setMode("");
+    };
 
     useEffect(() => {
         if (!accessToken || role !== "admin") {
@@ -36,10 +50,29 @@ const AdminReport = ({accessToken, role}) => {
     }, []);
 
     return (
-      <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
-            {loading ? <Spinner /> : <Table data={report} accessToken={accessToken} />}
-        </div>
-    )
+        <>
+            <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
+                <button
+                    className="text-5xl text-purple-600"
+                    onClick={handleAdd}
+                >
+                    <CiSquarePlus />
+                </button>
+                {loading ? (
+                    <Spinner />
+                ) : (
+                    <Table data={report} accessToken={accessToken} />
+                )}
+            </div>
+
+            <Modal
+                isOpen={isModalOpen}
+                closeModal={closeModal}
+                mode={mode}
+                accessToken={accessToken}
+            />
+        </>
+    );
 };
 
 export default AdminReport;

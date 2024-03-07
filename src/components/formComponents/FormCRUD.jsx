@@ -15,6 +15,7 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
 
     const [pazienti, setPazienti] = useState([]);
 
+
     const [selectedPatient, setSelectedPatient] = useState(
         element?.patient?.split(" ").pop()
     );
@@ -23,6 +24,8 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
     const [selectedReport, setSelectedReport] = useState(
         element?.report?.split(" ").pop()
     );
+
+    const [fieldExam, setFieldExam] = useState("")
 
     const [updateState, setUpdateState] = useState({});
 
@@ -33,6 +36,12 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
         }
         if (name === "patient") {
             setSelectedPatient(value);
+        }
+        if (name === "report") {
+            setSelectedReport(value);
+        }
+        if (name === "report") {
+            setFieldExam(value);
         } else {
             setUpdateState((prevState) => ({
                 ...prevState,
@@ -66,6 +75,108 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
                     console.error("Error fetching doctors:", err);
                     closeModal();
                     setUpdateState({});
+                }
+            }
+            if (url === "patients") {
+                try {
+                    const response = await axios.post(
+                        "http://localhost:8080/admin/patients",
+                        {
+                            name: updateState.name,
+                            surname: updateState.surname,
+                            email: updateState.email,
+                            password: updateState.password,
+                            telefono: updateState.telefono,
+                            doctor: selectedDoctor,
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    closeModal();
+                    setSelectedDoctor("");
+                    setUpdateState({});
+                    setDottori([]);
+                } catch (err) {
+                    console.error("Error fetching doctors:", err);
+                    setSelectedDoctor("");
+                    setUpdateState({});
+                    setDottori([]);
+                    closeModal();
+                }
+            }
+            if (url === "reports") {
+                try {
+                    const response = await axios.post(
+                        "http://localhost:8080/admin/reports",
+                        {
+                            content: updateState?.content,
+                            field: updateState?.field,
+                            patient: selectedPatient,
+                            doctor: selectedDoctor,
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    closeModal();
+                } catch (err) {
+                    console.error("Error fetching reports:", err);
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    closeModal();
+                }
+            }
+            if (url === "exams") {
+                try {
+                    const response = await axios.post(
+                        "http://localhost:8080/admin/exams",
+                        {
+                            content: updateState?.content,
+                            field: fieldExam,
+                            patient: selectedPatient,
+                            doctor: selectedDoctor,
+                            report: selectedReport,
+                            completed: updateState?.completed,
+                        },
+                        {
+                            headers: {
+                                Authorization: `Bearer ${accessToken}`,
+                            },
+                        }
+                    );
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setSelectedReport("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    setReports([]);
+                    setFieldExam("")
+                    closeModal();
+                } catch (err) {
+                    console.error("Error fetching reports:", err);
+                    setSelectedDoctor("");
+                    setSelectedPatient("");
+                    setSelectedReport("");
+                    setUpdateState("");
+                    setDottori([]);
+                    setPazienti([]);
+                    setReports([]);
+                    setFieldExam("")
+                    closeModal();
                 }
             }
         } else {
@@ -268,6 +379,7 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
             handleChange={handleChange}
             handleUpdate={handleUpdate}
             closeModal={closeModal}
+            mode={mode}
         />
     ) : url === "reports" ? (
         <FormReport
@@ -280,6 +392,7 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
             selectedPatient={selectedPatient}
             getPatient={getPatient}
             pazienti={pazienti}
+            mode={mode}
         />
     ) : url === "exams" ? (
         <FormExam
@@ -295,6 +408,11 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
             selectedReport={selectedReport}
             getReport={getReport}
             reports={reports}
+            mode={mode}
+            setSelectedPatient={setSelectedPatient}
+            setSelectedReport={setSelectedReport}
+            setFieldExam={setFieldExam}
+            fieldExam = {fieldExam}
         />
     ) : (
         <FormPatient
@@ -304,6 +422,7 @@ function FormCRUD({ url, accessToken, closeModal, element, mode = "edit" }) {
             SelectedDoctor={selectedDoctor}
             getDoctor={getDoctor}
             dottori={dottori}
+            mode={mode}
         />
     );
 }

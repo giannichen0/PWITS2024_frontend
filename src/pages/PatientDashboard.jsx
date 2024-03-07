@@ -5,9 +5,19 @@ import NavbarDoctor from "../components/NavbarDoctor"
 import NotFound from "./NotFound";
 import PatientDoctor from "./patient/PatientDoctor";
 import PatientExam from "./patient/PatientExam";
-import PatientReport from "./patient/patientReport";
+import ReportPatient from "./patient/ReportPatient";
 
 const PatientDashboard = () => {
+  const navigate = useNavigate();
+
+    const { accessToken } = useContext(AuthContext);
+    const role = accessToken.split("\t")[1]
+    console.log(role)
+    useEffect(() => {
+        if (!accessToken || role!== "patient") 
+            navigate("/");
+        
+    }, []);
   return (
     <div>PatientDashboard</div>
   )

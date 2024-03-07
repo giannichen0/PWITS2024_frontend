@@ -12,7 +12,7 @@ const NavbarMio = () => {
 
     const handleLogout = async () => {
         try {
-            const response = await axios.post("http://localhost:8080/auth/logout", {}, {
+            const response = await axios.post("https://pwits2024-backend.onrender.com/auth/logout", {}, {
                 withCredentials: true // Send cookies with the request
             });
     
@@ -79,27 +79,27 @@ const NavbarMio = () => {
                         <Link
                             to="/patient"
                             className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
-                                location.pathname === "/pati" ? "text-purple-700" : ""
+                                location.pathname === "/patient" ? "text-purple-700" : ""
                             }`}
                         >
-                            Dottori
+                            Profilo
                         </Link>
                         </li>
                         <li>
                         <Link
-                            to="/doctor/patients"
+                            to="/patient/doctors"
                             className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
-                                location.pathname === "/doctor/patients" ? "text-purple-700" : ""
+                                location.pathname === "/patient/doctors" ? "text-purple-700" : ""
                             }`}
                         >
-                            Pazienti
+                            Dottore
                         </Link>
                         </li>
                         <li>
                         <Link
-                            to="/doctor/reports"
+                            to="/patient/reports"
                             className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
-                                location.pathname === "/doctor/reports" ? "text-purple-700" : ""
+                                location.pathname === "/patient/reports" ? "text-purple-700" : ""
                             }`}
                         >
                             Report
@@ -107,9 +107,9 @@ const NavbarMio = () => {
                         </li>
                         <li>
                         <Link
-                            to="/doctor/exams"
+                            to="/patient/exams"
                             className={`block py-2 px-3 text-gray-900 rounded hover:bg-purple-700 md:hover:bg-transparent md:p-0 ${
-                                location.pathname === "/doctor/exams" ? "text-purple-700" : ""
+                                location.pathname === "/patient/exams" ? "text-purple-700" : ""
                             }`}
                         >
                             Visite

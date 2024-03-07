@@ -23,7 +23,7 @@ function Modal({ isOpen, closeModal, selectedItem="", mode, accessToken }) {
         setLoading(true);
         if(userType === "admin"){
             try {
-                await axios.delete(`http://localhost:8080/admin/${url}`, {
+                await axios.delete(`https://pwits2024-backend.onrender.com/admin/${url}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },
@@ -41,7 +41,7 @@ function Modal({ isOpen, closeModal, selectedItem="", mode, accessToken }) {
         }
         if(userType === "doctor"){
             try {
-                await axios.delete(`http://localhost:8080/doctor/${url}`, {
+                await axios.delete(`https://pwits2024-backend.onrender.com/doctor/${url}`, {
                     headers: {
                         Authorization: `Bearer ${accessToken}`,
                     },

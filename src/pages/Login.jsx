@@ -34,7 +34,7 @@ const Login = () => {
     const authenticateUser = async () => {
         setLoading(true);
         try {
-            const response = await axios.post("http://localhost:8080/auth", {
+            const response = await axios.post("https://pwits2024-backend.onrender.com/auth", {
                 email: loginState.email,
                 password: loginState.password,
             });

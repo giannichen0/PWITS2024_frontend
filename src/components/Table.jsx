@@ -56,7 +56,7 @@ function Table({ data, accessToken }) {
     const handleMailClick = (item) => {
         axios
             .post(
-                "http://localhost:8080/utility/mail",
+                "https://pwits2024-backend.onrender.com/utility/mail",
                 {
                     doctor: item.doctor.split(" ").pop(),
                     patient: item.patient.split(" ").pop(),
@@ -75,7 +75,7 @@ function Table({ data, accessToken }) {
     const handlePdfClick = (item) => {
         axios
             .post(
-                "http://localhost:8080/utility/pdf",
+                "https://pwits2024-backend.onrender.com/utility/pdf",
                 {
                     doctorId: item.doctor.split(" ").pop(),
                     patientId: item.patient.split(" ").pop(),

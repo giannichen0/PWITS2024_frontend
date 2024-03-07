@@ -22,7 +22,7 @@ const DoctorPatient = ({ accessToken, role }) => {
             const getPatients = async () => {
                 try {
                     const response = await axios.get(
-                        "http://localhost:8080/doctor/patients",
+                        "https://pwits2024-backend.onrender.com/doctor/patients",
                         {
                             headers: {
                                 Authorization: `Bearer ${accessToken}`,

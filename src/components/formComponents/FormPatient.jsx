@@ -1,10 +1,12 @@
 import React, { useEffect } from "react";
 import { patientFields } from "../../../constants/FormFields";
 
-const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, getDoctor, dottori, mode}) => {
+const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, getDoctor, dottori, mode, user}) => {
+    
 
     useEffect(()=>{
-        getDoctor()
+        if (user === "admin")
+            getDoctor()
     },[])
 
     const patientForm = (
@@ -15,9 +17,9 @@ const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, ge
                         htmlFor={field.labelFor}
                         className="block text-sm pt-2 font-medium text-gray-700"
                     >
-                        {field.labelText}
+                        {field.labelText === "dottore" && user === "doctor" ? "" :field.labelText }
                     </label>
-                    {field.name === "doctor" ? (
+                    {field.name === "doctor" && user === "admin"? (
                         <select
                             name={field.name}
                             id={field.id}
@@ -35,7 +37,7 @@ const FormPatient = ({handleChange, handleUpdate, closeModal, selectedDoctor, ge
                                 </option>
                             ))}
                         </select>
-                    ) : (
+                    ) : field.name  === "doctor" && user ==="doctor" ? <></> : (
                         <input
                             type={field.type}
                             name={field.name}

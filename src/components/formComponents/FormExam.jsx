@@ -18,7 +18,8 @@ const FormExam = ({
     setSelectedPatient,
     setSelectedReport,
     setFieldExam,
-    fieldExam
+    fieldExam,
+    user
 }) => {
     useEffect(() => {
         getDoctor();

@@ -15,7 +15,7 @@ const TokenRefresher = () => {
                 refreshAccessToken();
                 
             }
-        }, 6000); // Refresh token every 60 seconds
+        }, 60 * 1000 * 7 ); // Refresh token every 7 minutes
 
         return () => clearInterval(interval);
     }, []);

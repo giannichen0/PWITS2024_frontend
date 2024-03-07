@@ -7,6 +7,9 @@ function Modal({ isOpen, closeModal, selectedItem="", mode, accessToken }) {
     const [loading, setLoading] = useState(false);
 
     const location = useLocation();
+    
+    const userType = location.pathname.split("/")[1]
+
     let url = "";
     const pathSegments = location.pathname.split("/");
     if (pathSegments.length <= 2) {
@@ -16,25 +19,46 @@ function Modal({ isOpen, closeModal, selectedItem="", mode, accessToken }) {
     }
 
     const handleDelete = async () => {
+        console.log(url)
         setLoading(true);
-        try {
-            await axios.delete(`http://localhost:8080/admin/${url}`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-                data: {
-                    id: selectedItem,
-                },
-            });
-            closeModal();
-        } catch (error) {
-            console.error("Error fetching doctors:", error);
-        } finally {
-            setLoading(false);
-            closeModal();
+        if(userType === "admin"){
+            try {
+                await axios.delete(`http://localhost:8080/admin/${url}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    data: {
+                        id: selectedItem,
+                    },
+                });
+                closeModal();
+            } catch (error) {
+                console.error("Error fetching doctors:", error);
+            } finally {
+                setLoading(false);
+                closeModal();
+            }
+        }
+        if(userType === "doctor"){
+            try {
+                await axios.delete(`http://localhost:8080/doctor/${url}`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                    data: {
+                        id: selectedItem,
+                    },
+                });
+                closeModal();
+            } catch (error) {
+                console.error("Error fetching doctors:", error);
+            } finally {
+                setLoading(false);
+                closeModal();
+            }
         }
     };
-
+    
     const editMode = isOpen && (
         <div
             className="relative z-10"
@@ -64,11 +88,13 @@ function Modal({ isOpen, closeModal, selectedItem="", mode, accessToken }) {
                                 </div>
                             </div>
                         </div>
+                        
                         <FormCRUD
                             url={url}
                             accessToken={accessToken}
                             closeModal={closeModal}
                             element={selectedItem}
+                            user={userType}
                         />
                     </div>
                 </div>
@@ -177,6 +203,7 @@ function Modal({ isOpen, closeModal, selectedItem="", mode, accessToken }) {
                             accessToken={accessToken}
                             closeModal={closeModal}
                             mode = "add"
+                            user = {userType}
                         />
                     </div>
                 </div>

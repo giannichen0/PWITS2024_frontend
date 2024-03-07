@@ -12,12 +12,13 @@ const FormReport = ({
     getPatient,
     pazienti,
     mode,
+    user
 }) => {
     const [filteredDoctors, setFilteredDoctors] = useState([]);
 
     useEffect(() => {
         getPatient();
-        getDoctor()
+        if(user === "admin") getDoctor()
     }, []);
 
     //filtraggio per fare coincidere il dottore 
@@ -46,9 +47,9 @@ const FormReport = ({
                         htmlFor={field.labelFor}
                         className="block text-sm pt-2 font-medium text-gray-700"
                     >
-                        {field.labelText}
+                        {field.labelText === "doctor" && user === "doctor" ? "" :field.labelText}
                     </label>
-                    {field.name === "doctor" ? (
+                    {field.name === "doctor" && user === "admin" ? (
                         <select
                             name={field.name}
                             id={field.id}
@@ -66,7 +67,7 @@ const FormReport = ({
                                 </option>
                             ))}
                         </select>
-                    ) : field.name === "patient" ? (
+                    ) : field.name === "doctor" && user === "doctor" ? <></> : field.name === "patient" ? (
                         <select
                             name={field.name}
                             id={field.id}
@@ -85,7 +86,7 @@ const FormReport = ({
                                 </option>
                             ))}
                         </select>
-                    ) : (
+                    ) :field.name  === "doctor" && user ==="doctor" ? <></>: (
                         <input
                             type={field.type}
                             name={field.name}

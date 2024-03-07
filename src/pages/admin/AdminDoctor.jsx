@@ -10,9 +10,9 @@ const AdminDoctor = ({ accessToken, role }) => {
     const navigate = useNavigate();
     const [dottori, setDottori] = useState([]);
     const [loading, setLoading] = useState(false);
-    
+
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [mode,setMode] = useState("")
+    const [mode, setMode] = useState("");
 
     useEffect(() => {
         if (!accessToken || role !== "admin") {
@@ -40,10 +40,10 @@ const AdminDoctor = ({ accessToken, role }) => {
         }
     }, []);
 
-    const handleAdd = ()=>{
+    const handleAdd = () => {
         setIsModalOpen(true);
-        setMode("add")
-    }
+        setMode("add");
+    };
     const closeModal = () => {
         setIsModalOpen(false);
         setMode("");
@@ -52,24 +52,28 @@ const AdminDoctor = ({ accessToken, role }) => {
     return (
         <>
             <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
-                <button className="text-5xl text-purple-600" onClick={handleAdd}>
-                    <CiSquarePlus />
-                </button>
                 {loading ? (
                     <Spinner />
                 ) : (
-                    <Table data={dottori} accessToken={accessToken} />
+                    <>
+                        <button
+                            className="text-5xl text-purple-600"
+                            onClick={handleAdd}
+                        >
+                            <CiSquarePlus />
+                        </button>
+
+                        <Table data={dottori} accessToken={accessToken} />
+                    </>
                 )}
             </div>
-            
-            <Modal 
-            isOpen={isModalOpen}
-            closeModal={closeModal}
-            mode={mode}
-            accessToken={accessToken}
-            />
 
-            
+            <Modal
+                isOpen={isModalOpen}
+                closeModal={closeModal}
+                mode={mode}
+                accessToken={accessToken}
+            />
         </>
     );
 };

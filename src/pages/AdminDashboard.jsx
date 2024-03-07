@@ -1,10 +1,7 @@
-import React, { useEffect, useState, useContext } from "react";
-import axios from "axios";
-import Spinner from "../components/Spinner";
-import { useNavigate, Route, Routes, Outlet } from "react-router-dom";
+import React, { useEffect, useContext } from "react";
+import { useNavigate, Route, Routes } from "react-router-dom";
 import AuthContext from "../../context/authProvider";
 import NavbarMio from "../components/NavbarMio";
-import Table from "../components/Table";
 import AdminReport from "./admin/AdminReport";
 import AdminPatient from "./admin/AdminPatient";
 import AdminExam from "./admin/AdminExam";
@@ -16,6 +13,7 @@ const AdminDashboard = () => {
 
     const { accessToken } = useContext(AuthContext);
     const role = accessToken.split("\t")[1]
+    
     useEffect(() => {
         if (!accessToken || role!== "admin") 
             navigate("/");

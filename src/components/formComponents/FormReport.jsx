@@ -105,7 +105,7 @@ const FormReport = ({
                     onClick={handleUpdate}
                     className="inline-flex w-full justify-center rounded-md bg-purple-600 px-3 py-2 text-sm font-semibold text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto"
                 >
-                    Modifica
+                    {mode === "edit" ? "Modifica" : "Aggiungi"}
                 </button>
                 <button
                     type="button"

@@ -148,6 +148,7 @@ const FormExam = ({
     );
 
     if (mode !== "edit") {
+        const [patientName, setPatientName] = useState("") 
         
         const handleReportChange = (e) => {
             const selectedReportId = e.target.value;
@@ -156,6 +157,7 @@ const FormExam = ({
             const selectedReportData = reports.find((report) => report._id === selectedReportId);
             if (selectedReportData) {
                 setFieldExam(selectedReportData.field)
+                setPatientName(selectedReportData.patient.split(" ").slice(0, 2).join(" "))
                 setSelectedPatient(selectedReportData.patient.split(" ").pop());
                 
             }
@@ -175,7 +177,7 @@ const FormExam = ({
                             id={field.id}
                             autoComplete="off"
                             required={field.isRequired}
-                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full h-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             value={selectedDoctor}
                             onChange={handleChange}
                         >
@@ -193,8 +195,8 @@ const FormExam = ({
                                 id={field.id}
                                 autoComplete="off"
                                 required={field.isRequired}
-                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-                                value={selectedPatient}
+                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full h-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                value={patientName}
                                 readOnly={mode === "add"}
                             />
                         ): field.name === "field" ? (
@@ -204,7 +206,7 @@ const FormExam = ({
                                 id={field.id}
                                 autoComplete="off"
                                 required={field.isRequired}
-                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full h-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 value={fieldExam}
                                 readOnly={mode === "add"}
                             />
@@ -214,7 +216,7 @@ const FormExam = ({
                                 id={field.id}
                                 autoComplete="off"
                                 required={field.isRequired}
-                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                                className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full h-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                                 value={selectedReport}
                                 onChange={handleReportChange}
                             >
@@ -234,7 +236,7 @@ const FormExam = ({
                             id={field.id}
                             autoComplete="off"
                             required={field.isRequired}
-                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
+                            className="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full h-full shadow-sm sm:text-sm border-gray-300 rounded-md"
                             placeholder={field.placeholder}
                             onChange={handleChange}
                         />

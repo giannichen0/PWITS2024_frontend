@@ -6,7 +6,6 @@ import Spinner from "../../components/Spinner";
 import { CiSquarePlus } from "react-icons/ci";
 import Modal from "../../components/Modal";
 
-
 const AdminPatient = ({ accessToken, role }) => {
     const navigate = useNavigate();
     const [patient, setPatient] = useState([]);
@@ -53,18 +52,18 @@ const AdminPatient = ({ accessToken, role }) => {
     return (
         <>
             <div className="min-h-full h-screen flex flex-col items-center justify-center py-8 px-4 sm:px-6 lg:px-8 bg-[#F6F3F9]">
-                
-                <button
-                    className="text-5xl text-purple-600"
-                    onClick={handleAdd}
-                >
-                    <CiSquarePlus />
-                </button>
-                
                 {loading ? (
                     <Spinner />
                 ) : (
-                    <Table data={patient} accessToken={accessToken} />
+                    <>
+                        <button
+                            className="text-5xl text-purple-600"
+                            onClick={handleAdd}
+                        >
+                            <CiSquarePlus />
+                        </button>
+                        <Table data={patient} accessToken={accessToken} />
+                    </>
                 )}
             </div>
 

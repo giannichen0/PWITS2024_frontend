@@ -1,15 +1,21 @@
 import React, { useEffect, useContext } from "react";
 import axios from "axios";
 import AuthContext from "../../context/authProvider";
+import { useLocation } from "react-router-dom";
 
 axios.defaults.withCredentials = true;
 const TokenRefresher = () => {
+    const location = useLocation()
     const { setAccessToken, accessToken } = useContext(AuthContext);
 
     useEffect(() => {
         const interval = setInterval(() => {
-            refreshAccessToken();
-        }, 60000); // Refresh token every 60 seconds
+            
+            if(location.pathname !== "/"){
+                refreshAccessToken();
+                
+            }
+        }, 6000); // Refresh token every 60 seconds
 
         return () => clearInterval(interval);
     }, []);

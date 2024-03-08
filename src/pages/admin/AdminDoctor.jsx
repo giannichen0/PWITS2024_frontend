@@ -14,28 +14,30 @@ const AdminDoctor = ({ accessToken, role }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mode, setMode] = useState("");
 
+    const getDottori = async () => {
+        try {
+            const response = await axios.get(
+                "https://pwits2024-backend.onrender.com/admin/doctors",
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setDottori(response.data);
+        } catch (error) {
+            console.error("Error fetching doctors:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (!accessToken || role !== "admin") {
             navigate("/");
         } else {
             setLoading(true);
-            const getDottori = async () => {
-                try {
-                    const response = await axios.get(
-                        "https://pwits2024-backend.onrender.com/admin/doctors",
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                    );
-                    setDottori(response.data);
-                } catch (error) {
-                    console.error("Error fetching doctors:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
+            
             getDottori();
         }
     }, []);
@@ -47,6 +49,7 @@ const AdminDoctor = ({ accessToken, role }) => {
     const closeModal = () => {
         setIsModalOpen(false);
         setMode("");
+        getDottori()
     };
 
     return (

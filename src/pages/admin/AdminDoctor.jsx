@@ -40,16 +40,17 @@ const AdminDoctor = ({ accessToken, role }) => {
             
             getDottori();
         }
-    }, [closeModal]);
+    }, []);
 
     const handleAdd = () => {
         setIsModalOpen(true);
         setMode("add");
     };
-    const closeModal = () => {
+    const closeModal = async () => {
         setIsModalOpen(false);
         setMode("");
         getDottori()
+       
     };
 
     return (

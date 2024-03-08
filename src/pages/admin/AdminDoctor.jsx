@@ -40,7 +40,7 @@ const AdminDoctor = ({ accessToken, role }) => {
             
             getDottori();
         }
-    }, []);
+    }, [closeModal]);
 
     const handleAdd = () => {
         setIsModalOpen(true);

@@ -14,37 +14,42 @@ const AdminReport = ({ accessToken, role }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mode, setMode] = useState("");
 
+    const getReports = async () => {
+        try {
+            const response = await axios.get(
+                "https://pwits2024-backend.onrender.com/admin/reports",
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setReport(response.data);
+        } catch (error) {
+            console.error("Error fetching reports:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleAdd = () => {
         setIsModalOpen(true);
         setMode("add");
     };
-    const closeModal = () => {
+    const closeModal = async () => {
         setIsModalOpen(false);
         setMode("");
+        await getReports()
     };
+
+    
 
     useEffect(() => {
         if (!accessToken || role !== "admin") {
             navigate("/");
         } else {
             setLoading(true);
-            const getReports = async () => {
-                try {
-                    const response = await axios.get(
-                        "https://pwits2024-backend.onrender.com/admin/reports",
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                    );
-                    setReport(response.data);
-                } catch (error) {
-                    console.error("Error fetching reports:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
+            
             getReports();
         }
     }, []);

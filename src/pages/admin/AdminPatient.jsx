@@ -14,28 +14,30 @@ const AdminPatient = ({ accessToken, role }) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mode, setMode] = useState("");
 
+    const getPatients = async () => {
+        try {
+            const response = await axios.get(
+                "https://pwits2024-backend.onrender.com/admin/patients",
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setPatient(response.data);
+        } catch (error) {
+            console.error("Error fetching Patients:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         if (!accessToken || role !== "admin") {
             navigate("/");
         } else {
             setLoading(true);
-            const getPatients = async () => {
-                try {
-                    const response = await axios.get(
-                        "https://pwits2024-backend.onrender.com/admin/patients",
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                    );
-                    setPatient(response.data);
-                } catch (error) {
-                    console.error("Error fetching Patients:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
+           
             getPatients();
         }
     }, []);
@@ -44,9 +46,11 @@ const AdminPatient = ({ accessToken, role }) => {
         setIsModalOpen(true);
         setMode("add");
     };
-    const closeModal = () => {
+    const closeModal = async () => {
         setIsModalOpen(false);
         setMode("");
+        await getPatients()
+
     };
 
     return (

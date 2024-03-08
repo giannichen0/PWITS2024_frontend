@@ -14,37 +14,41 @@ function AdminExam({ accessToken, role }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [mode, setMode] = useState("");
 
+    const getExams = async () => {
+        try {
+            const response = await axios.get(
+                "https://pwits2024-backend.onrender.com/admin/exams",
+                {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                }
+            );
+            setExam(response.data);
+        } catch (error) {
+            console.error("Error fetching Patients:", error);
+        } finally {
+            setLoading(false);
+        }
+    };
+
     const handleAdd = () => {
         setIsModalOpen(true);
         setMode("add");
     };
-    const closeModal = () => {
+    const closeModal =async  () => {
         setIsModalOpen(false);
         setMode("");
+       await getExams()
     };
+    
 
     useEffect(() => {
         if (!accessToken || role !== "admin") {
             navigate("/");
         } else {
             setLoading(true);
-            const getExams = async () => {
-                try {
-                    const response = await axios.get(
-                        "https://pwits2024-backend.onrender.com/admin/exams",
-                        {
-                            headers: {
-                                Authorization: `Bearer ${accessToken}`,
-                            },
-                        }
-                    );
-                    setExam(response.data);
-                } catch (error) {
-                    console.error("Error fetching Patients:", error);
-                } finally {
-                    setLoading(false);
-                }
-            };
+           
             getExams();
         }
     }, []);
